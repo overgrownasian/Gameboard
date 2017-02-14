@@ -1,0 +1,350 @@
+<HTML ontouchmove="BlockMove(event);" >
+<Head>
+<meta name="viewport" content="width=device-width; initial-scale=.9; maximum-scale=1.0; user-scalable=yes;"/>
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <title>Jeopardy Board</title>
+	<link rel="stylesheet" type="text/css" href="jeopardy.css"  />
+
+	<script type='text/javascript'>
+
+function BlockMove(event) {
+  // Tell Safari not to move the window.
+  event.preventDefault() ;
+
+  }
+function RefreshPage(){
+window.location.href=window.location.href;
+}
+function Question(cell) {
+		
+		var scrolledX, scrolledY;
+if( self.pageYOffset ) {
+  scrolledX = self.pageXOffset;
+  scrolledY = self.pageYOffset;
+} else if( document.documentElement && document.documentElement.scrollTop ) {
+  scrolledX = document.documentElement.scrollLeft;
+  scrolledY = document.documentElement.scrollTop;
+} else if( document.body ) {
+  scrolledX = document.body.scrollLeft;
+  scrolledY = document.body.scrollTop;
+}
+
+// Determine the coordinates of the center of the page
+
+var centerX, centerY;
+if( self.innerHeight ) {
+  centerX = self.innerWidth;
+  centerY = self.innerHeight;
+} else if( document.documentElement && document.documentElement.clientHeight ) {
+  centerX = document.documentElement.clientWidth;
+  centerY = document.documentElement.clientHeight;
+} else if( document.body ) {
+  centerX = document.body.clientWidth;
+  centerY = document.body.clientHeight;
+}
+		
+		var leftOffset = scrolledX + (centerX - 900) / 2;
+		var topOffset = scrolledY + (centerY - 700) / 2;
+		var varQuestion = document.getElementById("s"+cell).value;
+		var correctCode = "<br><br><input type='submit' value=' Clear ' onClick='document.getElementById(&quot;Pops&quot;).style.display = &quot;none&quot;; document.getElementById(&quot;" + cell + "&quot;).innerHTML = &quot;&nbsp;&quot;;'>";
+		var incorrectCode = "<input type='submit' value='Keep' onClick='document.getElementById(&quot;Pops&quot;).style.display = &quot;none&quot; '>";
+  document.getElementById("Pops").style.top = topOffset + "px";
+  document.getElementById("Pops").style.left = leftOffset + "px";
+  document.getElementById("Pops").style.display = "block";
+  document.getElementById("Pops").innerHTML = varQuestion + correctCode + incorrectCode;
+}
+var savedboard = 0;
+
+function LocalSave(key, value) {
+window.localStorage.setItem(key, value);
+}
+
+function LocalGet(key) {
+var mylocalkey = window.localStorage[key];
+return mylocalkey;
+}
+function loader() {
+
+for (var i=1;i<7;i=i+1){
+	
+	if(LocalGet('cat'+i)!=="undefined") {
+	
+	document.getElementById('scat'+i).value = LocalGet('cat'+i);	
+	
+		
+	if(document.getElementById('scat'+i).value=="undefined"){
+		document.getElementById("cat"+i).innerHTML = "Category " +i;
+		document.getElementById('scat'+i).value="Category " +i;
+	}else{
+		document.getElementById('cat'+i).innerHTML=LocalGet("cat"+i);
+		document.getElementById('scat'+i).value=LocalGet("cat"+i);
+		if(LocalGet('cat'+i)===""){document.getElementById("cat"+i).innerHTML = "Category "+i;}
+	}
+	}
+	
+	if(LocalGet('a'+i)!=="undefined") {
+	document.getElementById("sa"+i).value = LocalGet('a'+i);
+	if(document.getElementById("sa"+i).value == "undefined"){
+		document.getElementById("sa"+i).value = "";
+	}
+	}
+
+	if(LocalGet("b"+i)!=="undefined") {
+	document.getElementById("sb"+i).value = LocalGet('b'+i);
+		if(document.getElementById("sb"+i).value == "undefined"){
+		document.getElementById("sb"+i).value = "";
+	}
+		}
+	if(LocalGet("c"+i)!=="undefined") {
+	savedboard=1;
+	document.getElementById("sc"+i).value = LocalGet('c'+i);
+		if(document.getElementById("sc"+i).value == "undefined"){
+		document.getElementById("sc"+i).value = "";
+	}
+		}
+	if(LocalGet("d"+i)!=="undefined") {
+	savedboard=1;
+	document.getElementById("sd"+i).value = LocalGet('d'+i);
+		if(document.getElementById("sd"+i).value == "undefined"){
+		document.getElementById("sd"+i).value = "";
+	}
+			}
+	if(LocalGet("e"+i)!=="undefined") {
+	savedboard=1;
+	document.getElementById("se"+i).value = LocalGet('e'+i);
+		if(document.getElementById("se"+i).value == "undefined"){
+		document.getElementById("se"+i).value = "";
+	}
+	}
+}
+
+}
+
+function Saver() {
+	
+	for (var i=1;i<7;i++)
+	{
+
+	LocalSave('cat'+i,document.getElementById("scat"+i).value);
+	LocalSave('a'+i,document.getElementById("sa"+i).value);
+	LocalSave('b'+i,document.getElementById("sb"+i).value);
+	LocalSave('c'+i,document.getElementById("sc"+i).value);
+	LocalSave('d'+i,document.getElementById("sd"+i).value);
+	LocalSave('e'+i,document.getElementById("se"+i).value);
+
+	}
+	document.getElementById("Sets").style.display = "none";	
+	loader();
+}
+
+function Sets() {
+
+
+if(document.getElementById("Sets").style.display == "block"){
+	loader();
+	document.getElementById("Sets").style.display = "none";
+	return;
+}
+loader();
+var scrolledX, scrolledY;
+if( self.pageYOffset ) {
+  scrolledX = self.pageXOffset;
+  scrolledY = self.pageYOffset;
+} else if( document.documentElement && document.documentElement.scrollTop ) {
+  scrolledX = document.documentElement.scrollLeft;
+  scrolledY = document.documentElement.scrollTop;
+} else if( document.body ) {
+  scrolledX = document.body.scrollLeft;
+  scrolledY = document.body.scrollTop;
+}
+
+// Determine the coordinates of the center of the page
+
+var centerX, centerY;
+if( self.innerHeight ) {
+  centerX = self.innerWidth;
+  centerY = self.innerHeight;
+} else if( document.documentElement && document.documentElement.clientHeight ) {
+  centerX = document.documentElement.clientWidth;
+  centerY = document.documentElement.clientHeight;
+} else if( document.body ) {
+  centerX = document.body.clientWidth;
+  centerY = document.body.clientHeight;
+}
+	
+		var leftOffset = (centerX * 0.05) / 2;
+		var topOffset = scrolledY + (centerY - 550) / 2;
+		
+  document.getElementById("Sets").style.left = leftOffset + "px";
+  document.getElementById("Sets").style.top = topOffset + "px";
+
+  document.getElementById("Sets").style.display = "block";
+
+}
+function ResetAll() {
+
+	
+	for(var i=1;i<7;i=i+1){
+	LocalSave("a"+i,"");
+	LocalSave("b"+i,"");
+	LocalSave("c"+i,"");
+	LocalSave("d"+i,"");
+	LocalSave("e"+i,"");
+	LocalSave("cat"+i,"");
+	}
+	document.location.reload(true);
+
+	
+}
+
+function resetBoard() {
+document.location.reload(true);
+}
+
+function resetQs() {
+		for(var i=1;i<7;i=i+1){
+	LocalSave("a"+i,"");
+	LocalSave("b"+i,"");
+	LocalSave("c"+i,"");
+	LocalSave("d"+i,"");
+	LocalSave("e"+i,"");
+	LocalSave("cat"+i,"");
+	}
+	loader();
+}
+</script>
+
+	
+</Head>
+<Body bgcolor="#333" onload="loader();"> 
+<div id="Toolbar">
+<img src="gear.png" width=25px height=25px style="float:right; padding-right:25px; padding-top:15px" onclick="Sets();">
+
+</div>   
+<center>
+<table id="MainTable" width=100% border="0" bgcolor="#666" cellpadding=0 cellspacing=0>
+<tr align=center> 
+  <th id="cat1" width=16.6% class="vBoxHead">Category 1</th>
+  <th id="cat2" width=16.6% class="vBoxHead">Category 2</th>
+  <th id="cat3" width=16.6% class="vBoxHead">Category 3</th>
+  <th id="cat4" width=16.6% class="vBoxHead">Category 4</th>
+  <th id="cat5" width=16.6% class="vBoxHead">Category 5</th>
+  <th id="cat6" width=16.6% class="vBoxHead">Category 6</th>
+</tr>
+
+<tr align=center>
+  <td width=16.6% class="vBox" onclick="Question('a1')"><a href="#" onclick="Question('a1')" id="a1" >$100</a></td>
+  <td width=16.6% class="vBox" onclick="Question('a2')"><a href="#" onclick="Question('a2')" id="a2" >$100</a></td>
+  <td width=16.6% class="vBox" onclick="Question('a3')"><a href="#" onclick="Question('a3')" id="a3">$100</a></td>
+  <td width=16.6% class="vBox" onclick="Question('a4')"><a href="#" onclick="Question('a4')" id="a4">$100</a></td>
+  <td width=16.6% class="vBox" onclick="Question('a5')"><a href="#" onclick="Question('a5')" id="a5">$100</a></td>
+  <td width=16.6% class="vBox" onclick="Question('a6')"><a href="#" onclick="Question('a6')" id="a6">$100</a></td>
+</tr >
+<tr align=center >
+  <td width=16.6% class="vBox" onclick="Question('b1')"><a href="#" onclick="Question('b1')" id=b1>$200</a></td>
+  <td width=16.6% class="vBox" onclick="Question('b2')"><a href="#" onclick="Question('b2')" id=b2>$200</a></td>
+  <td width=16.6% class="vBox" onclick="Question('b3')"><a href="#" onclick="Question('b3')" id=b3>$200</a></td>
+  <td width=16.6% class="vBox" onclick="Question('b4')"><a href="#" onclick="Question('b4')" id=b4>$200</a></td>
+  <td width=16.6% class="vBox" onclick="Question('b5')"><a href="#" onclick="Question('b5')" id=b5>$200</a></td>
+  <td width=16.6% class="vBox" onclick="Question('b6')"><a href="#" onclick="Question('b6')" id=b6>$200</a></td>
+</tr>
+<tr align=center>
+  <td width=16.6% class="vBox" onclick="Question('c1')"><a href="#" onclick="Question('c1')" id=c1>$300</a></td>
+  <td width=16.6% class="vBox" onclick="Question('c2')"><a href="#" onclick="Question('c2')" id=c2>$300</a></td>
+  <td width=16.6% class="vBox" onclick="Question('c3')"><a href="#" onclick="Question('c3')" id=c3>$300</a></td>
+  <td width=16.6% class="vBox" onclick="Question('c4')"><a href="#" onclick="Question('c4')" id=c4>$300</a></td>
+  <td width=16.6% class="vBox" onclick="Question('c5')"><a href="#" onclick="Question('c5')"  id=c5>$300</a></td>
+  <td width=16.6% class="vBox" onclick="Question('c6')"><a href="#" onclick="Question('c6')" id=c6>$300</a></td>
+</tr>
+<tr align=center>
+  <td width=16.6% class="vBox" onclick="Question('d1')"><a href="#" onclick="Question('d1')"  id=d1>$400</a></td>
+  <td width=16.6% class="vBox" onclick="Question('d2')"><a href="#" onclick="Question('d2')" id=d2>$400</a></td>
+  <td width=16.6% class="vBox" onclick="Question('d3')"><a href="#" onclick="Question('d3')" id=d3>$400</a></td>
+  <td width=16.6% class="vBox" onclick="Question('d4')"><a href="#" onclick="Question('d4')" id=d4>$400</a></td>
+  <td width=16.6% class="vBox" onclick="Question('d5')"><a href="#" onclick="Question('d5')" id=d5>$400</a></td>
+  <td width=16.6% class="vBox" onclick="Question('d6')"><a href="#" onclick="Question('d6')" id=d6>$400</a></td>
+</tr >
+<tr align=center>
+  <td width=16.6% class="vBox" onclick="Question('e1')"><a href="#" onclick="Question('e1')" id=e1>$500</a></td>
+  <td width=16.6% class="vBox" onclick="Question('e2')"><a href="#" onclick="Question('e2')" id=e2>$500</a></td>
+  <td width=16.6% class="vBox" onclick="Question('e3')"><a href="#" onclick="Question('e3')" id=e3>$500</a></td>
+  <td width=16.6% class="vBox" onclick="Question('e4')"><a href="#" onclick="Question('e4')" id=e4>$500</a></td>
+  <td width=16.6% class="vBox" onclick="Question('e5')"><a href="#" onclick="Question('e5')" id=e5>$500</a></td>
+  <td width=16.6% class="vBox" onclick="Question('e6')"><a href="#" onclick="Question('e6')" id=e6>$500</a></td>
+</tr>
+</table>
+</center>
+
+<div id="Pops">
+</div>
+
+<div id="Sets">
+<center>
+<input type="Button" Value="Reset Board" onclick="resetBoard()">
+<input type="Button" Value="Reset Questions" onclick="ResetQs()">
+<input type="Button" Value="Reset All" onclick="ResetAll()">
+</center>
+<hr>
+<center>
+<table width="80%">
+<tr>
+  <td width=16%>Category 1<br><input id="scat1" type=text value="Category 1" class="setTextBox"></td>
+  <td width=16%>Category 2<br><input id="scat2" type=text value="Category 2" class="setTextBox"></td>
+  <td width=16%>Category 3<br><input id="scat3" type=text value="Category 3" class="setTextBox"></td>
+  <td width=16%>Category 4<br><input id="scat4" type=text value="Category 4" class="setTextBox"></td>
+  <td width=16%>Category 5<br><input id="scat5" type=text value="Category 5" class="setTextBox"></td>
+  <td width=16%>Category 6<br><input id="scat6" type=text value="Category 5" class="setTextBox"></td>
+</tr>
+<tr>
+  <td>$100<br><textarea id="sa1" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$100<br><textarea id="sa2" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$100<br><textarea id="sa3" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$100<br><textarea id="sa4" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$100<br><textarea id="sa5" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$100<br><textarea id="sa6" rows=3 type=text  class="setTextBox"></textarea></td>
+</tr>
+<tr>
+  <td>$200<br><textarea id="sb1" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$200<br><textarea id="sb2" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$200<br><textarea id="sb3" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$200<br><textarea id="sb4" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$200<br><textarea id="sb5" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$200<br><textarea id="sb6" rows=3 type=text  class="setTextBox"></textarea></td>
+</tr>
+<tr>
+  <td>$300<br><textarea id="sc1" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$300<br><textarea id="sc2" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$300<br><textarea id="sc3" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$300<br><textarea id="sc4" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$300<br><textarea id="sc5" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$300<br><textarea id="sc6" rows=3 type=text  class="setTextBox"></textarea></td>
+</tr>
+<tr>
+  <td>$400<br><textarea id="sd1" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$400<br><textarea id="sd2" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$400<br><textarea id="sd3" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$400<br><textarea id="sd4" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$400<br><textarea id="sd5" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$400<br><textarea id="sd6" rows=3 type=text  class="setTextBox"></textarea></td>
+</tr>
+<tr>
+  <td>$500<br><textarea id="se1" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$500<br><textarea id="se2" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$500<br><textarea id="se3" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$500<br><textarea id="se4" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$500<br><textarea id="se5" rows=3 type=text  class="setTextBox"></textarea></td>
+  <td>$500<br><textarea id="se6" rows=3 type=text  class="setTextBox"></textarea></td>
+</tr>
+</table>
+
+
+<input id="btnSave" type='submit' value='Save' onClick='Saver(); '>
+<input id="btnSave" type='submit' value='Cancel' onClick='loader(); document.getElementById("Sets").style.display = "none"; '>
+</center>
+</div>
+
+
+
+</body>

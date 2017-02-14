@@ -1,0 +1,8 @@
+CACHE MANIFEST
+#Version 3
+index.html
+jeopardy.css
+bgcell.jpg
+board.jpg
+gear.png
+logo.png
